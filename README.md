@@ -1,5 +1,6 @@
 # Flask App Backtester
-<h3>Flask App: Trading Strategy Backtester</h3>
+
+<h3>Flask based Trading Strategy Backtester</h3>
 
 
 Usage
