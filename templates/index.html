@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>BACKTESTER: CONFIG FILE TESTER!</title>
+{% endblock %}
+{% block static %}
+    <!-- Atlassian UI -->
+{% endblock %}
+{% block content %}
+    <br>
+    <h2>TESTER</h2>
+    <hr>
+    <div class="ml-auto col-auto option-container" id="uploader">
+        <p><strong>CONFIG DOWNLOAD / UPLOAD</strong></p>
+        <div class="row">
+            <div class="col">
+                <div class="float-right">
+                    {#                    Upload#}
+                    {#                    <input type="file" name="file" id="file"/>#}
+
+                    {#                <button class="aui-button aui-button-primary float-right"></button>#}
+                    {{ dropzone.create(action=url_for('index'), id='dropzone') }}
+                    {{ dropzone.config(id='dropzone', default_message='UPLOAD') }}
+                </div>
+                <div class="float-left">
+                    <button type="button" class="aui-button aui-button-primary bg-success"
+                            onclick="location.href='{{ url_for("results") }}';">DOWNLOAD
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="aui-message aui-message-change" id="uploadhint"><strong>Hint:</strong> Upload a config file.</div>
+    </div>
+    {#    <div class="option-container">#}
+    {#        <ol>#}
+    {#            <!-- For loop logic of jinja template -->#}
+    {#            {% for f in files %}#}
+    {#                <li>{{ f }}</li>#}
+    {#            {% endfor %}#}
+    {#        </ol>#}
+    {#    </div>#}
+    <div class="container" id="scanner">
+        <div class="row">
+            <div class="col">
+                <div class="float-left" id="prev-version-title">
+                    <p><strong>BUY CONFIG</strong></p>
+                </div>
+                <div class="float-right" id="new-version-title">
+                    <p><strong>SELL CONFIG</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="prev-wrapper">
+                    <div class="float-left" id="previous-version">
+                        <div class="col">
+                            {#                            {% for k, v in files['Buy'].items() %}#}
+                            <p><strong>File Name</strong></p>
+                            <div class="alert alert-dark" role="alert">{{ files['Buy']['FileName'] }}</div>
+                            <p><strong>MD5 HASH</strong></p>
+                            <div class="alert alert-dark" role="alert">{{ files['Buy']['MD5Hash'] }}</div>
+                            <p><strong>Last Modified Timestamp</strong></p>
+                            <div class="alert alert-dark" role="alert">{{ files['Buy']['DateLastModified'] }}</div>
+                            {#                            {% endfor %}#}
+                        </div>
+                    </div>
+                </div>
+                <div class="float-right" id="new-version">
+                    <div class="col">
+                        {#                        {% for k, v in files['Sell'].items() %}#}
+                        <p><strong>File Name</strong></p>
+                        <div class="alert alert-dark" role="alert">{{ files['Sell']['FileName'] }}</div>
+                        <p><strong>MD5 HASH</strong></p>
+                        <div class="alert alert-dark" role="alert">{{ files['Sell']['MD5Hash'] }}</div>
+                        <p><strong>Last Modified Timestamp</strong></p>
+                        <div class="alert alert-dark" role="alert">{{ files['Sell']['DateLastModified'] }}</div>
+                        {#                        {% endfor %}#}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="aui" action="{{ url_for('index') }}" method="POST" role="form" id="rescan-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="row">
+                <div class="col">
+                    <div class="float-right">
+                        {#                        {{ form_rescan.rescan_submit(class="aui-button aui-button-primary") }}#}
+                        <button type="submit" name="rescan" class="aui-button aui-button-primary">RESCAN</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col">
+                <div class="messages">
+                    <!-- Warning Alert -->
+                    {#  Messsage block  #}
+                    {% block message %}
+                        {% with messages=get_flashed_messages(with_categories=true) %}
+                            {% for category, message in messages %}
+                                <!-- Success Alert -->
+                                <div class="alert alert-{{ category }} bg-{{ category }} alert-dismissible fade show text-dark">
+                                    <i class="fa fa-warning"></i><strong> {{ message.split(':')[0] }} </strong> {{ message.split(':')[1] }}
+                                    <button type="button" class="close" data-dismiss="alert"
+                                            style="margin: 0 5px 25px 0">x
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% endwith %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="container" id="confirmation">-->
+<!--        <div class="row">-->
+<!--            <div class="col">-->
+<!--                <div class="float-left" id="testing-title">-->
+<!--                    <p><strong>START TESTING</strong></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="container" id="tester">
+        <div class="row">
+            <div class="col">
+                <div class="float-left" id="testing-title">
+                    <p><strong>START TESTING</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form action="{{ url_for('index') }}" method="POST" role="form" class="float-left" id="tester-buttons">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    {#                    {{ form.buy_sell.label() }}#}
+                    <div class="btn-group">
+                        {{ form.buy_sell(class="btn btn-secondary dropdown-toggle") }}
+                        {% if form.buy_sell.errors %}
+                            <ul class="errors">
+                                {% for error in form.buy_sell.errors %}
+                                    <li class="error">
+                                        <i class="fas fa-exclamation"></i> <span
+                                            class="error-message">{{ error }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+<!--                    <button type="submit" id="submit" name="submit" class="aui-button aui-button-primary" onclick="this.form.submit();this.disabled=true;document.getElementById('terminate').disabled=false;">START</button>-->
+<!--                    <button type="submit" id="submit" name="submit" class="aui-button aui-button-primary">START</button>-->
+<!--                    <button type="submit" id="terminate" name="terminate" class="aui-button aui-button-primary bg-danger" disabled>TERMINATE</button>-->
+                    {{ form.start(class="aui-button aui-button-primary") }}
+                    {{ form.terminate(class="aui-button aui-button-primary bg-danger") }}
+                    <div class="row">
+                        <div class="col">
+                            <div class="float-left" id="tester-output-box">
+                                <div class="container">
+                                    <p><strong>LOG OUTPUT</strong></p>
+                                    {#                                    <textarea class="form-control form-rounded" rows="5" placeholder="APP STDOUT OUTPUT" style="font-weight: bold;">#}
+                                    {#                                                {% for log in logs %}#}
+                                    {#                                                    {{ log }}#}
+                                    {#                                                {% endfor %}#}
+                                    {#                                    </textarea>#}
+                                    <div class="columns is-centered is-mobile">
+                                        <div id="displaylogs"
+                                             class="column is-dark notification is-four-fifths bg-dark text-warning overflow-auto">
+                                            <div class="bg-dark text-warning">
+                                                {{ logs }}
+{#                                                <ol id="display_list">#}
+{#                                                    {% for log in logs %}#}
+{#                                                        <li>{{ log }}</li>#}
+{#                                                    {% endfor %}#}
+{#                                                </ol>#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+    document.getElementById('start').onclick(disabled=true);
+</script>
+{% endblock %}

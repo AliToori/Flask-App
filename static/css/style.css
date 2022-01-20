@@ -1,0 +1,336 @@
+/* Upload button customization*/
+.file {
+    position: relative;
+    overflow: hidden;
+    width: 160px;
+    height: 40px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    /*line-height: 0;*/
+}
+
+.file input {
+    /*position: relative;*/
+    font-size: 50px;
+    opacity: 0;
+    /*right: 0;*/
+    /*top: 0;*/
+}
+
+/* Dropzone customization*/
+#dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: #0087F7;
+    margin-top: 25px;
+    width: 170px;
+    height: 10px;
+    padding: 1px 1px;
+    min-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: white;
+}
+
+.dropzone .dz-message {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 5px
+}
+.dropzone .dz-preview .dz-error-message {
+    pointer-events: none;
+    z-index: 1000;
+    position: absolute;
+    display: block;
+    display: none;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -ms-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    font-size: 12px;
+    top: 130px;
+    left: -50px;
+    width: 220px;
+    background: #be2626;
+    background: linear-gradient(to bottom, #be2626, #a92222);
+    padding: 0.5em 1.2em;
+    color: white
+}
+#uploader {
+    width: 40%;
+    height: 200px;
+    border-radius: 30px;
+    border: 2px dashed seagreen;
+    /*color:slategray;*/
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+
+#uploader button {
+    width: 160px;
+    height: 40px;
+    margin-top: 25px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+}
+
+#uploadhint {
+    /*width: 160px;*/
+    /*height: 35px;*/
+    margin-top: 50px;
+    text-align: left;
+    line-height: 0;
+}
+
+#scanner {
+    width: 100%;
+    border-radius: 30px;
+    border: 2px dashed slategray;
+    /*color: slategray;*/
+    margin-bottom: 50px;
+}
+
+#rescan-form button {
+    width: 180px;
+    height: 40px;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+}
+
+
+#previous-version {
+    width: 45%;
+    border-radius: 12px;
+    border: 2px dashed lightgray;
+    /*color: slategray;*/
+}
+
+#new-version {
+    width: 45%;
+    border-radius: 12px;
+    border: 2px dashed lightgray;
+    /*color: slategray;*/
+}
+
+#prev-version-title {
+    margin: 25px 0 25px 0;
+}
+
+#new-version-title {
+    margin: 25px 360px 25px 0;
+}
+
+#tester {
+    width: 100%;
+    /*border-radius: 30px;*/
+    /*border: 2px dashed slategray;*/
+    /*color: slategray;*/
+    margin-bottom: 50px;
+}
+
+#tester button {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 15px;
+}
+#tester input {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 15px;
+}
+
+.dropdown-toggle {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 15px;
+}
+
+#tester-buttons {
+    width: 100%;
+    border-radius: 25px;
+    border: 2px dashed slategray;
+    /*color: slategray;*/
+}
+#footer {
+    alignment: center;
+    text-align: center;
+    margin: 100px 0 25px 50px;
+    font-size: 14px;
+    /*font-weight: bold;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/*#footer hr {*/
+/*    alignment: center;*/
+/*    text-align: center;*/
+/*    margin-left: 25px;*/
+/*}*/
+#downloader-buttons {
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 25px;
+    border: 2px dashed slategray;
+    /*color: slategray;*/
+}
+
+#downloader button {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 50px;
+}
+
+
+#displaylogs {
+    width: 100%;
+    height: 100px;
+    border-radius: 5px;
+    border: 2px dashed slategray;
+    /*color: slategray;*/
+}
+
+#display_list {
+    margin: 5px 0 25px 5px;
+    /*color: slategray;*/
+}
+
+#tester-output-box {
+    width: 100%;
+    height: 100%;
+    /*border-radius: 50%;*/
+    /*border: 2px slategray;*/
+    /*color: slategray;*/
+}
+
+.p-3 {
+    width: 100%;
+    position: center;
+    text-align: left;
+}
+
+p {
+    font-size: 18px;
+}
+
+.form-rounded {
+    border-radius: 1rem;
+}
+
+.alert {
+    font-weight: bold;
+}
+
+#config-tables, #json-tabs {
+    min-height: 500px;
+    border-radius: 1rem;
+    text-align: center;
+    /*font-weight: bold;*/
+    /*font-family: Roboto Mono, sans-serif;*/
+    color: white;
+    margin-top: 25px;
+    margin-bottom: 50px;
+}
+#config-tables input {
+    max-width: 200px;
+    text-align: center;
+    /*font-weight: bold;*/
+    /*font-family: Roboto Mono, sans-serif;*/
+}
+
+/*#table-head {*/
+/*    color: darkorange;*/
+/*    font-size: 14px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+.nav-tabs > li > a {
+    color: darkorange;
+    font-weight: bold;
+    font-size: 18px;
+}
+.nav-tabs > li.active > a {
+    font-size: 18px;
+    font-weight: bold;
+}
+.tab-content table  {
+    border-radius: 1rem;
+    color: white;
+    /*font-weight: bold;*/
+    margin-bottom: 25px;
+}
+#config-form-container {
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 25px;
+    border: 2px dashed slategray;
+}
+#config-form {
+    width: 100%;
+    margin: 25px;
+    /*border-radius: 25px;*/
+    /*border: 2px dashed slategray;*/
+}
+#config-form label{
+    /*color: slategray;*/
+    font-weight: bold;
+}
+
+#saves-buttons {
+    width: 100%;
+    margin-bottom: 25px;
+    /*border-radius: 25px;*/
+    /*border: 2px dashed slategray;*/
+    color: slategray;
+}
+
+#config-form button {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 5px;
+}
+
+#json-editor button {
+    width: 220px;
+    height: 45px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+    line-height: 0;
+    margin: 25px 5px 25px 5px;
+}
+
+
+
+
+

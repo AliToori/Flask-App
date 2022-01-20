@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+        <title>FlaskApp!</title>
+    {% endblock %}
+    <!-- Font-awesome CSS -->
+    <link rel="stylesheet" href="../static/Font-Awesome-4.7.0/css/font-awesome.min.css">
+    {# Fontawesome flask_fontawesome package #}
+    {{ fontawesome_css() }}
+    {#    {{ fontawesome_html() }}#}
+    {#    {{ fontawesome_js() }}#}
+    <!-- Dropzone CSS -->
+    {{ dropzone.load_css() }}
+    <!-- Dropzone JS -->
+    {{ dropzone.load_js() }}
+    <!-- Atlassian UI -->
+    <link rel="stylesheet" href="/static/atlassian-ui-9.4.0/aui/aui-prototyping.css" media="all">
+    <!-- Import the Bootstrap stylesheet -->
+    <link rel="stylesheet" href="/static/bootstrap-4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <!-- Import our custom stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block static %}{% endblock %}
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container">
+    {#    {% block message %}#}
+    {#        {% with messages=get_flashed_messages(with_categories=true) %}#}
+    {#            {% for category, message in messages %}#}
+    {#                <div class='alert alert-{{ category }} text-center alert-dismissible fade show m-auto'>#}
+    {#                    {{ message }}#}
+    {#                </div>#}
+    {#            {% endfor %}#}
+    {#        {% endwith %}#}
+    {#    {% endblock %}#}
+
+    {% block content %}
+        <h1>Base Template!</h1>
+    {% endblock %}
+</div>
+
+<!-- Import jquery 3.6.0 slim min -->
+<script src="/static/js/jquery-3.6.0.slim.min.js"></script>
+<!-- Import AUI Atlassian JS -->
+<script src="/static/atlassian-ui-9.4.0/aui/aui-prototyping.js"></script>
+<!-- Import Bootstrap bundle -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+{% block script %}{% endblock %}
+{% block footer %}
+    <div class="container" id="footer">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <footer></footer>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock %}
+</body>
+</html>

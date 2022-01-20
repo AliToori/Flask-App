@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>BACKTESTER: FILES!</title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <br>
+                <h2>CONFIG FILE VIEWER</h2>
+                <hr>
+                <h1 style="color: beige; background-color: #1b1e21; text-align: center;"><b>Available Buy & Sell
+                    Files</b></h1>
+                <table class="aui aui-table-list aui-table-sortable" style="width: 100%">
+                    <thead>
+                    <tr>
+                        {% for header in files['Buy'].keys() %}
+                            <th scope="col"
+                                style="color: #1b1e21; font-family: 'Nunito', Helvetica, Arial, sans-serif;">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for k, v in files['Buy'].items() %}
+                                <td>
+                                    <div class="alert alert-dark" role="alert">{{ v }}</div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for k, v in files['Sell'].items() %}
+                                <td>
+                                    <div class="alert alert-dark" role="alert">{{ v }}</div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>BACKTESTER: RESULTS!</title>
+{% endblock %}
+{% block content %}
+    <div class="container" id="downloader">
+        <div class="row">
+            <div class="col">
+                <br>
+                <h2>RESULTS</h2>
+                <hr>
+                {#  Messsage block  #}
+                {% block message %}
+                    {% with messages=get_flashed_messages(with_categories=true) %}
+                        {% for category, message in messages %}
+                            <!-- Success Alert -->
+                            <div class="alert alert-{{ category }} bg-{{ category }} alert-dismissible fade show text-dark">
+                                <i class="fa fa-warning"></i><strong> {{ message.split(':')[0] }} </strong> {{ message.split(':')[1] }}
+                                <button type="button" class="close" data-dismiss="alert" style="margin: 0 5px 25px 0">
+                                    x
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endwith %}
+                {% endblock %}
+                <h1 style="color: beige; background-color: #1b1e21; text-align: center;"><b>Available Buy & Sell
+                    Files</b></h1>
+                <table class="aui aui-table-list aui-table-sortable" style="width: 100%">
+                    <thead>
+                    <tr>
+                        {% for header in files['Buy'].keys() %}
+                            <th scope="col"
+                                style="color: #1b1e21; font-family: 'Nunito', Helvetica, Arial, sans-serif;">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for k, v in files['Buy'].items() %}
+                                <td>
+                                    <div class="alert alert-dark" role="alert">{{ v }}</div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        <tr>
+                            {% for k, v in files['Sell'].items() %}
+                                <td>
+                                    <div class="alert alert-dark" role="alert">{{ v }}</div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+                <form action="{{ url_for('results') }}" method="POST" role="form" id="downloader-buttons">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    {#                    {{ form.buy_sell.label() }}#}
+                    <div class="btn-group">
+                        {{ form.buy_sell(class="btn btn-secondary dropdown-toggle") }}
+                    </div>
+                    <button type="submit" class="aui-button aui-button-primary bg-success">DOWNLOAD</button>
+{#                    <button type="button" id="submit" name="submit" class="aui-button aui-button-primary">START</button>#}
+{#                    <button type="button" class="aui-button aui-button-primary bg-danger">TERMINATE</button>#}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

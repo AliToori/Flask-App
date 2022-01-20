@@ -1,0 +1,629 @@
+{% extends "base.html" %}
+{% block title %}
+<title>BACKTESTER: CONFIG FILE EDITOR!</title>
+{% endblock %}
+{% block content %}
+<div class=container" id="json-editor">
+    <div class="row">
+        <div class="col">
+            <br>
+            <h2>CONFIG</h2>
+            <hr>
+            {# Messsage block #}
+            {% block message %}
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+            <!-- Success Alert -->
+            <div class="alert alert-{{ category }} bg-{{ category }} alert-dismissible fade show text-dark">
+                <i class="fa fa-warning"></i><strong> {{ message.split(':')[0] }} </strong> {{ message.split(':')[1] }}
+                <button type="button" class="close" data-dismiss="alert" style="margin: 0 5px 25px 0">
+                    x
+                </button>
+            </div>
+            {% endfor %}
+            {% endwith %}
+            {% endblock %}
+            <br>
+
+            <br>
+            <br>
+            {# CONFIG TABLES #}
+            <div class="container bg-dark" id="config-tables">
+                <br>
+                <h3 class="text-white">JSON File Viewer & Editor</h3>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="#buy" class="nav-link active" data-bs-toggle="tab">BUY</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#sell" class="nav-link" data-bs-toggle="tab">SELL</a>
+                    </li>
+                </ul>
+                <div class="tab-content main">
+                    <br>
+                    <div class="tab-pane fade show active" id="buy">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a href="#header-buy" class="nav-link active" data-bs-toggle="tab">Header</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#entry-buy" class="nav-link" data-bs-toggle="tab">Entry</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#exit-buy" class="nav-link" data-bs-toggle="tab">Exit</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#data-buy" class="nav-link" data-bs-toggle="tab">Data</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#backtester-buy" class="nav-link" data-bs-toggle="tab">Backtester</a>
+                            </li>
+                        </ul>
+                        <form class="aui" action="{{ url_for('config') }}" method="POST" role="form"
+                              id="config-form-buy">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <div class="tab-content buy">
+                                <br>
+                                <div class="tab-pane fade" id="header-buy">
+                                    <table class="aui aui-table-list bg-white" id="table-header-buy">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Buy"]["Header"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Buy"]["Header"].iterrows() %}
+                                        <tr>
+                                            <td class="form-control">{{ row["Param"] }}</td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Buy"]["Header"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Buy"]["Header"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="entry-buy">
+                                    <table class="aui aui-table-list bg-white" id="table-entry-buy">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Buy"]["Entry"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Buy"]["Entry"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Buy"]["Entry"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Buy"]["Entry"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="exit-buy">
+                                    <table class="aui aui-table-list bg-white" id="table-exit-buy">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Buy"]["Exit"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Buy"]["Exit"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Buy"]["Exit"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Buy"]["Exit"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="data-buy">
+                                    <table class="aui aui-table-list bg-white" id="table-data-buy">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Buy"]["Data"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Buy"]["Data"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Buy"]["Data"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Buy"]["Data"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="backtester-buy">
+                                    <table class="aui aui-table-list bg-white" id="table-backtester-buy">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Buy"]["Backtest"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Buy"]["Backtest"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Buy"]["Backtest"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Buy"]["Backtest"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                            </div>
+                            <button type="button" class="aui-button aui-button-primary bg-danger float-right"
+                                    onclick="location.href='{{ url_for("config") }}';">Cancel</button>
+                            <button type="submit" name="submit-buy"
+                                    class="aui-button aui-button-primary bg-primary float-right">Save changes
+                            </button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="sell">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a href="#header-sell" class="nav-link active" data-bs-toggle="tab">Header</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#entry-sell" class="nav-link" data-bs-toggle="tab">Entry</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#exit-sell" class="nav-link" data-bs-toggle="tab">Exit</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#data-sell" class="nav-link" data-bs-toggle="tab">Data</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#backtester-sell" class="nav-link" data-bs-toggle="tab">Backtester</a>
+                            </li>
+                        </ul>
+                        <form class="aui" action="{{ url_for('config') }}" method="POST" role="form"
+                              id="config-form-sell">
+                            <div class="tab-content sell">
+                                <br>
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <div class="tab-pane fade" id="header-sell">
+                                    <table class="aui aui-table-list bg-white" id="table-header-sell">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Sell"]["Header"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Sell"]["Header"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Sell"]["Header"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Sell"]["Header"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="entry-sell">
+                                    <table class="aui aui-table-list bg-white" id="table-entry-sell">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Sell"]["Entry"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Sell"]["Entry"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Sell"]["Entry"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Sell"]["Entry"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="exit-sell">
+                                    <table class="aui aui-table-list bg-white" id="table-exit-sell">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Sell"]["Exit"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Sell"]["Exit"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Sell"]["Exit"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Sell"]["Exit"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="data-sell">
+                                    <table class="aui aui-table-list bg-white" id="table-data-sell">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Sell"]["Data"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Sell"]["Data"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Sell"]["Data"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Sell"]["Data"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                                <div class="tab-pane fade" id="backtester-sell">
+                                    <table class="aui aui-table-list bg-white" id="table-backtester-sell">
+                                        <thead>
+                                        <tr>
+                                            {% for col in config_dfs["Sell"]["Backtest"].columns %}
+                                            <th class="text-dark"> {{ col }}</th>
+                                            {% endfor %}
+                                            <th class="text-dark">Comment</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for index, row in config_dfs["Sell"]["Backtest"].iterrows() %}
+                                        <tr>
+                                            <td
+                                                    class="form-control">{{ row["Param"] }}
+                                            </td>
+                                            {% if row["Value"] == "ON" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"
+                                                checked></aui-toggle>
+                                            </td>
+                                            {% elif row["Value"] == "OFF" %}
+                                            <td>
+                                                <aui-toggle id="{{ row[" Param
+                                                "] }}"
+                                                name="{{ row["Param"] }}"
+                                                label="{{ row["Param"] }}"></aui-toggle>
+                                            </td>
+                                            {% else %}
+                                            <div class="col-sm-2">
+                                                <td><input type="text" class="form-control"
+                                                           id="{{ row[" Param"] }}"
+                                                    name="{{ row["Param"] }}"
+                                                    value="{{ row["Value"] }}" required>
+                                                </td>
+                                            </div>
+                                            {% endif %}
+                                            <td><input type="text" class="form-control"
+                                                name="{{ comment_dfs["Sell"]["Backtest"]["Param"][index] }}"
+                                                value="{{ comment_dfs["Sell"]["Backtest"]["Comment"][index] }}" required>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </div>
+                            </div>
+                            <button type="button" class="aui-button aui-button-primary bg-danger float-right"
+                                    onclick="location.href='{{ url_for("config") }}';">Cancel</button>
+                            <button type="submit" name="submit-sell"
+                                    class="aui-button aui-button-primary bg-primary float-right">Save changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+<!--            {#-->
+<!--            <form action="{{ url_for('config') }}" method="POST" role="form" id="saves-buttons">#}-->
+<!--                {# <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>#}-->
+<!--                {# {{ form.cancel_changes(class="aui-button aui-button-primary bg-danger float-right") }}#}-->
+<!--                {# {{ form.save_changes(class="aui-button aui-button-primary bg-primary float-right") }}#}-->
+<!--                {#-->
+<!--                <button type="button" class="aui-button aui-button-primary bg-danger float-right" #}-->
+<!--                        {# onclick="location.href='{{ url_for("config") }}';">Cancel#}-->
+<!--                {#                    </button>#}-->
+<!--                {#-->
+<!--                <button type="submit" class="aui-button aui-button-primary bg-primary float-right">Save changes#}-->
+<!--                    {#-->
+<!--                </button>-->
+<!--                #}-->
+<!--                {#-->
+<!--            </form>-->
+<!--            #}-->
+        </div>
+    </div>
+</div>
+{% block script %}
+
+{% endblock %}
+{% endblock %}
